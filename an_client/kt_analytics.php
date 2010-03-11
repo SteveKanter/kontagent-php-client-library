@@ -1577,9 +1577,8 @@ class Analytics_Utils
         return $this->m_ab_testing_mgr->replace_vo_custom_variable($info['data'][2], $custom_data);
     }
 
-    public function kt_stream_send($uuid, $subtype1=null, $subtype2=null, $subtype3=null)
+    public function kt_stream_send_fbjs($uid, $uuid, $subtype1=null, $subtype2=null, $subtype3=null)
     {
-        $uid = $this->get_fb_param('user');
         $arg_array = array('tu' => 'stream',
                            's' => $uid,
                            'u' => $uuid);
@@ -1593,6 +1592,12 @@ class Analytics_Utils
                                              $this->m_backend_api_key, $this->m_backend_secret_key,
                                              'pst',
                                              $arg_array);
+    }
+
+    public function kt_stream_send($uuid, $subtype1=null, $subtype2=null, $subtype3=null)
+    {
+        $uid = $this->get_fb_param('user');
+        $this->kt_stream_send_fbjs($uid, $uuid, $subtype1, $subtype2, $subtype3);
     }
 
     public function kt_feedstory_send($uuid, $subtype1=null, $subtype2=null, $subtype3=null)
