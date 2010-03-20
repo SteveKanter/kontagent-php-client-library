@@ -814,7 +814,7 @@ class Analytics_Utils
                                              $param_array);
     }
 
-    private function an_event_tracking($uid, $event_name, $value, $level){
+    private function an_event_tracking($uid, $event_name, $value, $level, $subtype1, $subtype2, $subtype3){
         $param_array = array();
         $param_array['s'] = $uid;
         $param_array['n'] = $event_name;
@@ -822,6 +822,12 @@ class Analytics_Utils
             $param_array['v'] = $value;
         if($level != null)
             $param_array['l'] = $value;
+        if($subtype1 != null)
+            $param_array['st1'] = $subtype1;
+        if($subtype2 != null)            
+            $param_array['st2'] = $subtype2;
+        if($subtype3 != null)            
+            $param_array['st3'] = $subtype3;
         $this->m_aggregator->api_call_method($this->m_backend_url, "v1",
                                              $this->m_backend_api_key, $this->m_backend_secret_key,
                                              'evt',
@@ -2239,9 +2245,11 @@ class Analytics_Utils
         $this->an_monetization_increment($uid, $money_value);
     }
 
-    public function event_tracking($uid, $event_name, $value=null, $level=null)
+    public function event_tracking($uid, $event_name, $value=null, $level=null,
+                                   $subtype1=null, $subtype2=null, $subtype3=null)
     {
-        $this->an_event_tracking($uid, $event_name, $value, $level);
+        $this->an_event_tracking($uid, $event_name, $value, $level,
+                                 $subtype1, $subtype2, $subtype3);
     }
     
     // Should use cookie to avoid sending repeated information to kontagent.
