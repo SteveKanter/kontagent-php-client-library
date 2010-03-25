@@ -144,7 +144,6 @@ if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_RE
     if($kt_installed == true)
     {
         $an->save_app_added();    
-        //$kt_facebook->redirect($an->get_stripped_installed_arg_url());
     }
 
     if ( $automatic_page_request_capture == 1 )

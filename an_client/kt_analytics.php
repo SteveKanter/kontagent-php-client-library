@@ -888,6 +888,7 @@ class Analytics_Utils
                                              );
     }
     
+   // TODO: remove as it makes false assumptions and there are no callers. It is a public function though.
    public function get_stripped_installed_arg_url()
    {
        $param_array = array();
@@ -901,7 +902,7 @@ class Analytics_Utils
        return $this->build_stripped_url($param_array);
    }
    
-   // After done processing the kt_params (see konttagent.php), this function will be invoked to stripped all the
+   // After done processing the kt_params (see kontagent.php), this function will be invoked to stripped all the
    // kt_* parameters. Why bother? First, it prevents erroneous processing after authorization. Second, prettier url.
    // Third, no need to deal with refreshing the url with kt_params in it.
    // Pass ids along. Since we are doing a redirect after done handling kt params,
@@ -955,7 +956,9 @@ class Analytics_Utils
    {
        // get the script name only minus the call_back_uri
        $script_uri = null;
-       if(isset($_SERVER['SCRIPT_URI']))
+       if (!empty($_SERVER['REQUEST_URI']))
+           $script_uri = $_SERVER['REQUEST_URI'];
+       else if(isset($_SERVER['SCRIPT_URI']))
            $script_uri = $_SERVER['SCRIPT_URI'];
        else if(isset($_SERVER['PHP_SELF']))
            $script_uri = $_SERVER['PHP_SELF'];
@@ -974,8 +977,6 @@ class Analytics_Utils
            // if there are slashes around the script_name (/index.php/), strip the one in the front.
            if(strlen($script_name) > 0 && $script_name[0] == "/")
                $script_name = substr($script_name, 1);
-           else
-               $script_name = "";
        
            $len = strlen($this->m_canvas_url);
                         
