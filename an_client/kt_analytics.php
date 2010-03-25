@@ -963,12 +963,20 @@ class Analytics_Utils
        // get the script name only minus the call_back_uri
        $script_uri = null;
        if (!empty($_SERVER['REQUEST_URI']))
+       {
            $script_uri = $_SERVER['REQUEST_URI'];
+       }
        else if(isset($_SERVER['SCRIPT_URI']))
+       {
            $script_uri = $_SERVER['SCRIPT_URI'];
+       }
        else if(isset($_SERVER['PHP_SELF']))
+       {
            $script_uri = $_SERVER['PHP_SELF'];
-           
+       }
+       $tmp_arry = explode("?" , $script_uri);
+       $script_uri = $tmp_arry[0];
+       
        if($script_uri != null)
        {
            if(preg_match("@".$this->m_local_req_uri."(.*)@", $script_uri, $matches))
