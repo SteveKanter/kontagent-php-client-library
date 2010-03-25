@@ -17,7 +17,7 @@ function stream_send(url_prefix, uid, uuid, st1, st2)
   }
 
   var query_str = http_build_query(param_array);
-  img.setSrc(url_prefix + '/ajax_kt_stream_send.php/?' + query_str);
+  img.setSrc(url_prefix + '/ajax_kt_stream_send_fbjs.php/?' + query_str);
 }
 
 function stream_send_vo(url_prefix, uid, uuid, campaign)
