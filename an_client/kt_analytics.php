@@ -533,11 +533,11 @@ class Analytics_Utils
 
         $user_data = array();
         $user_data['s'] = $user_id;
-      
+
         if (isset($birthday) && $birthday != ''){
-            $tmp_array = explode(',',$birthday);
-            if(count($tmp_array) == 2)
-                $user_data['b'] = urlencode(trim($tmp_array[1]));
+            $tmp_array = explode('/',$birthday);
+            if(count($tmp_array) == 3)
+                $user_data['b'] = urlencode(trim($tmp_array[2]));
             else
                 $user_data['b'] = urlencode('');
         }
@@ -2277,8 +2277,8 @@ class Analytics_Utils
         if(is_array($info))
         {
             $birthday = null;
-            if( isset($info[0]['birthday']) && $info[0]['birthday'] != '')
-                $birthday = $info[0]['birthday'];
+            if( isset($info[0]['birthday_date']) && $info[0]['birthday_date'] != '')
+                $birthday = $info[0]['birthday_date'];
 
             $gender = null;
             if( isset($info[0]['sex']) && $info[0]['sex'] != '')

@@ -39,7 +39,7 @@ class Kt_Facebook extends Facebook {
     public function get_user_info($user)
     {
         $friend_cnt = count($this->api_client->friends_get());
-        $info = $this->api_client->users_getInfo($user, array('sex', 'birthday', 'current_location', 'hometown_location')); 
+        $info = $this->api_client->users_getInfo($user, array('sex', 'birthday_date', 'current_location', 'hometown_location')); 
         $info[0]['friend_count'] = $friend_cnt;
         return $info;
     }
