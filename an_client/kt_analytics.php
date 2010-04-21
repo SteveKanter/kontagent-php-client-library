@@ -2,6 +2,7 @@
 
 // Kontagent an_client lib version KONTAGENT_VERSION_NUMBER
 include_once 'kt_comm_layer.php';
+include_once 'kt_include.php';
 
 class Analytics_Utils
 {
@@ -39,7 +40,8 @@ class Analytics_Utils
     const VO_PARAM_REGEX_STR = '/\{\*KT_AB_MSG\*\}/';
     const ESC_URL_UT_REGEX_STR = '/(ut%.*?)%/';
     const ESC_URL_SUT_REGEX_STR = '/(sut%.*?)%/';
-
+    
+    
     public $m_backend_api_key;
     private $m_backend_secret_key;
     private $m_backend_url;
@@ -2326,6 +2328,27 @@ class Analytics_Utils
                                      $home_city, $home_state, $home_country, $home_zip,
                                      $friend_count);
         }
+    }
+
+    public function render_vo_stream_cookie_fbjs()
+    {
+        global $kt_facebook, $feed_vo_prefix_regex;
+        $uid = $kt_facebook->user;
+        $fb_cookie = $kt_facebook->api_client->data_getCookies($uid, null);
+        
+        $stream_related_cookie = array();
+        $len = sizeof($fb_cookie);
+
+        for($i = 0; $i < $len; $i++)
+        {
+            $curr_c = $fb_cookie[$i];
+            if( isset($curr_c['uid']) && $curr_c['uid'] == $uid  &&
+                isset($curr_c['name']) && preg_match($feed_vo_prefix_regex, $curr_c['name']) )
+            {
+                $stream_related_cookie[$curr_c['name']] = json_decode($curr_c['value']);
+            }
+        }// for
+        return  json_encode($stream_related_cookie);
     }
 }
 

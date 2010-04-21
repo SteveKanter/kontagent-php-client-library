@@ -17,7 +17,7 @@ function stream_send(url_prefix, uid, uuid, st1, st2)
   }
 
   var query_str = http_build_query(param_array);
-  img.src = url_prefix + '/ajax_kt_stream_send.php/?' + query_str;
+  img.src = url_prefix + '/ajax_kt_stream_send.php?' + query_str;
 }
 
 function stream_send_vo(url_prefix, uid, uuid, campaign)
@@ -34,7 +34,7 @@ function stream_send_vo(url_prefix, uid, uuid, campaign)
   param_array['st2'] = format_kt_st2(abtest_data['data'][0]);
   param_array['st3'] = format_kt_st3(abtest_data['data'][0]);
   var query_str = http_build_query(param_array);
-  img.src = url_prefix + '/ajax_kt_stream_send.php/?' + query_str;
+  img.src = url_prefix + '/ajax_kt_stream_send.php?' + query_str;
 }
 
 function feedstory_send(url_prefix, uid, uuid, st1, st2)
@@ -56,7 +56,7 @@ function feedstory_send(url_prefix, uid, uuid, st1, st2)
   }
 
   var query_str = http_build_query(param_array);
-  img.src = url_prefix + '/ajax_kt_feedstory_send.php/?' + query_str;
+  img.src = url_prefix + '/ajax_kt_feedstory_send.php?' + query_str;
 }
 
 function feedstory_send_vo(url_prefix, uid, uuid, campaign)
@@ -73,5 +73,5 @@ function feedstory_send_vo(url_prefix, uid, uuid, campaign)
   param_array['st2'] = format_kt_st2(abtest_data['data'][0]);
   param_array['st3'] = format_kt_st3(abtest_data['data'][0]);
   var query_str = http_build_query(param_array);
-  img.src = url_prefix + '/ajax_kt_feedstory_send.php/?' + query_str;
+  img.src = url_prefix + '/ajax_kt_feedstory_send.php?' + query_str;
 }

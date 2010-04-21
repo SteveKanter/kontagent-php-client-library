@@ -201,19 +201,9 @@ function http_build_query( formdata, numeric_prefix, arg_separator ) {
 
 function kt_getCookie(c_name)
 {
-  if (document.cookie.length>0)
-  {
-    var c_start=document.cookie.indexOf(c_name + "=");
-    if (c_start!=-1)
-    {
-      c_start = c_start + c_name.length+1;
-      var c_end=document.cookie.indexOf(";",c_start);
-      if (c_end==-1) c_end=document.cookie.length;
-      return unescape(document.cookie.substring(c_start,c_end).replace(/\+/g, ' '));
-    }
-  }
-  return "";
+  return stream_vo_related_cookies[c_name];
 }
+
 
 function gen_stream_link(link, uuid, st1, st2)
 {
@@ -239,7 +229,7 @@ function gen_stream_link_vo(link, uuid, campaign)
   // check out cache_ab_testing_msg_page_tuplein kt_ab_testing.php to see how data is being stored in cookies
   // {'data' : page_msg_info,
   //  'handle_index': handle_index}
-  var abtest_data = JSON.parse(kt_getCookie(kt_feed_cookie_prefix+campaign));
+  var abtest_data = kt_getCookie(kt_feed_cookie_prefix+campaign);
   var param_array = { 'kt_type' : 'stream',
 		      'kt_ut': uuid + "" };
 
@@ -276,7 +266,7 @@ function gen_feedstory_link_vo(link, uuid, campaign)
   // check out cache_ab_testing_msg_page_tuplein kt_ab_testing.php to see how data is being stored in cookies
   // {'data' : page_msg_info,
   //  'handle_index': handle_index}
-  var abtest_data = JSON.parse(kt_getCookie(kt_feed_cookie_prefix+campaign));
+  var abtest_data = kt_getCookie(kt_feed_cookie_prefix+campaign);
   var param_array = { 'kt_type' : 'feedstory',
 		      'kt_ut': uuid + "" };
 
@@ -292,14 +282,13 @@ function gen_feedstory_link_vo(link, uuid, campaign)
 
 function get_selected_stream_msg(campaign, data_assoc_array)
 {
-  var abtest_data = JSON.parse(kt_getCookie(kt_feed_cookie_prefix+campaign));
-  var r =  replace_vo_custom_variable(abtest_data['data'][3], data_assoc_array);
-  return r;
+  var abtest_data = kt_getCookie(kt_feed_cookie_prefix+campaign);
+  return replace_vo_custom_variable(abtest_data['data'][3], data_assoc_array);
 }
 
 function get_selected_stream_call_to_action(campaign, data_assoc_array)
 {
-  var abtest_data = JSON.parse(kt_getCookie(kt_feed_cookie_prefix+campaign));
+  var abtest_data = kt_getCookie(kt_feed_cookie_prefix+campaign);
   return replace_vo_custom_variable(abtest_data['data'][2], data_assoc_array);
 }
 
@@ -320,13 +309,13 @@ function format_kt_st3(st3_str)
 
 function get_selected_feed_msg(campaign, data_assoc_array)
 {
-  var abtest_data = JSON.parse(kt_getCookie(kt_feed_cookie_prefix+campaign));
+  var abtest_data = kt_getCookie(kt_feed_cookie_prefix+campaign);
   return replace_vo_custom_variable(abtest_data['data'][3], data_assoc_array);
 }
 
 function get_selected_feed_call_to_action(campaign, data_assoc_array)
 {
-  var abtest_data = JSON.parse(kt_getCookie(kt_feed_cookie_prefix+campaign));
+  var abtest_data = kt_getCookie(kt_feed_cookie_prefix+campaign);
   return replace_vo_custom_variable(abtest_data['data'][2], data_assoc_array);
 }
 

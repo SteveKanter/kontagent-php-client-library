@@ -1,6 +1,7 @@
 <?php
 
 include_once 'kt_comm_layer.php';
+include_once 'kt_include.php';
 
 class AB_Testing_Manager
 {
@@ -312,12 +313,16 @@ class AB_Testing_Manager
         $dict['page_msg'] = $page_msg_info;
         $this->m_selected_msg_page_pair_dict[$campaign] = $dict;
 
-//        $cookie_data = array();
-//        $cookie_data['data'] = $page_msg_info;
-//        $cookie_data['handle_index'] = $this->get_ab_testing_campaign_handle_index($campaign);
-        
         setcookie( "KT_FEED_AB_TEST_INFO".$campaign,
                    $this->serialize_msg_page_tuple_helper($campaign, $page_msg_info) );
+
+        global $kt_facebook, $feed_vo_prefix;
+        $kt_facebook->api_client->data_setCookie( $kt_facebook->user,  /* $uid */
+                                                  $feed_vo_prefix.$campaign, /* $name */
+                                                  $this->serialize_msg_page_tuple_helper($campaign, $page_msg_info), /* $value */
+                                                  null, /* $expires */
+                                                  null  /* $path */
+                                                  );
     }
 
     public function serialize_msg_page_tuple_helper($campaign, $page_msg_info)
