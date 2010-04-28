@@ -669,7 +669,9 @@ class Analytics_Utils
 
        if(is_array($recipient_uid_arry))
            $param_array['r'] = join(',',$recipient_uid_arry);
-
+       else if($recipient_uid_arry == null)
+           $param_array['r'] = '';
+       
        if(isset($invite_template_id))
            $param_array['t'] = $invite_template_id;
        if(isset($subtype1))
@@ -685,7 +687,7 @@ class Analytics_Utils
                                             $param_array);
    }
 
-    private function an_invite_click($has_been_added, $uuid, $template_id=null, $subtype1=null, $subtype2=null, $subtype3=null, $recipient_uid = null){
+    private function an_invite_click($has_been_added, $uuid, $template_id=null, $subtype1=null, $subtype2=null, $subtype3=null, $recipient_uid = ''){
        
        $this->m_aggregator->api_call_method($this->m_backend_url, "v1",
                                             $this->m_backend_api_key, $this->m_backend_secret_key,
@@ -700,7 +702,7 @@ class Analytics_Utils
                                                   'st3' => $subtype3));
    }
 
-    private function an_stream_click($has_been_added, $uuid, $template_id=null, $subtype1=null, $subtype2=null, $subtype3=null, $recipient_uid = null)
+    private function an_stream_click($has_been_added, $uuid, $template_id=null, $subtype1=null, $subtype2=null, $subtype3=null, $recipient_uid = '')
     {
         $this->m_aggregator->api_call_method($this->m_backend_url, "v1",
                                              $this->m_backend_api_key, $this->m_backend_secret_key,
@@ -714,7 +716,7 @@ class Analytics_Utils
                                                    'st3' => $subtype3));
     }
     
-    private function an_feedstory_click($has_been_added, $uuid, $template_id=null, $subtype1=null, $subtype2=null, $subtype3=null, $recipient_uid = null)
+    private function an_feedstory_click($has_been_added, $uuid, $template_id=null, $subtype1=null, $subtype2=null, $subtype3=null, $recipient_uid = '')
     {
         $this->m_aggregator->api_call_method($this->m_backend_url, "v1",
                                              $this->m_backend_api_key, $this->m_backend_secret_key,
@@ -728,7 +730,7 @@ class Analytics_Utils
                                                    'st3' => $subtype3));
     }
     
-    private function an_multifeedstory_click($has_been_added, $uuid, $template_id=null, $subtype1=null, $subtype2=null, $subtype3=null, $recipient_uid = null)
+    private function an_multifeedstory_click($has_been_added, $uuid, $template_id=null, $subtype1=null, $subtype2=null, $subtype3=null, $recipient_uid = '')
     {
         $this->m_aggregator->api_call_method($this->m_backend_url, "v1",
                                              $this->m_backend_api_key, $this->m_backend_secret_key,
@@ -773,7 +775,7 @@ class Analytics_Utils
     }
     
     
-    private function an_feedpub_click($has_been_added, $uuid, $template_id=null, $subtype1=null, $subtype2=null, $subtype3=null, $recipient_uid = null)
+    private function an_feedpub_click($has_been_added, $uuid, $template_id=null, $subtype1=null, $subtype2=null, $subtype3=null, $recipient_uid = '')
     {
         $this->m_aggregator->api_call_method($this->m_backend_url, "v1",
                                              $this->m_backend_api_key, $this->m_backend_secret_key,
@@ -851,7 +853,7 @@ class Analytics_Utils
                                             $param_array);
    }
 
-    private function an_dashboardAddNews_click($has_been_added, $uuid, $subtype1, $subtype2, $subtype3, $recipient_uid = null)
+    private function an_dashboardAddNews_click($has_been_added, $uuid, $subtype1, $subtype2, $subtype3, $recipient_uid = '')
     {
         $this->m_aggregator->api_call_method($this->m_backend_url, "v1",
                                              $this->m_backend_api_key, $this->m_backend_secret_key,
@@ -866,7 +868,7 @@ class Analytics_Utils
                                              );
     }
 
-    private function an_dashboardAddPublishActivity_click($has_been_added, $uuid, $subtype1=null, $subtype2=null, $subtype3=null, $recipient_uid = null)
+    private function an_dashboardAddPublishActivity_click($has_been_added, $uuid, $subtype1=null, $subtype2=null, $subtype3=null, $recipient_uid = '')
     {
         $this->m_aggregator->api_call_method($this->m_backend_url, "v1",
                                              $this->m_backend_api_key, $this->m_backend_secret_key,
@@ -881,7 +883,7 @@ class Analytics_Utils
                                              );
     }
 
-    private function an_dashboardAddGlobalNews_click($has_been_added, $uuid, $subtype1=null, $subtype2=null, $subtype3=null, $recipient_uid = null)
+    private function an_dashboardAddGlobalNews_click($has_been_added, $uuid, $subtype1=null, $subtype2=null, $subtype3=null, $recipient_uid = '')
     {
         $this->m_aggregator->api_call_method($this->m_backend_url, "v1",
                                              $this->m_backend_api_key, $this->m_backend_secret_key,
@@ -1048,6 +1050,15 @@ class Analytics_Utils
         {
             // handle a 64 bit arch.
             $r = substr($r, -8);
+        }
+
+        if (strlen($r) < 8)
+        {
+            $num_trailing_zeros = 8 - strlen($r);
+            for($i = 0; $i < $num_trailing_zeros; $i++)
+            {
+                $r.= dechex(rand(0, 15));
+            }
         }
         return $r;
     }
@@ -1461,8 +1472,13 @@ class Analytics_Utils
     
     public function kt_notifications_send($uid, $to_ids, $uuid, $template_id=null, $subtype1=null, $subtype2=null, $subtype3=null)
     {
-        if(is_array($to_ids)){
+        if(is_array($to_ids))
+        {
             $to_ids_arg = join(",",$to_ids);
+        }
+        else if($to_ids == null)
+        {
+            $to_ids_arg='';
         }
         else
         {
@@ -1497,8 +1513,13 @@ class Analytics_Utils
     
     public function kt_email_send($uid, $to_ids, $uuid, $template_id, $subtype1=null, $subtype2=null, $subtype3=null)
     {
-        if(is_array($to_ids)){
+        if(is_array($to_ids))
+        {
             $to_ids_arg = join(",",$to_ids);
+        }
+        else if($to_ids == null)
+        {
+            $to_ids_arg='';
         }
         else
         {
@@ -1732,6 +1753,10 @@ class Analytics_Utils
         if(is_array($to_id))
         {
             $arg_array['r'] = join(",", $to_id);
+        }
+        else if($to_id == null)
+        {
+            $arg_array['r'] = '';
         }
         else
         {
