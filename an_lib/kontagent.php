@@ -184,5 +184,13 @@ function get_page_text($campaign)
     }
 }
 
+function vo_render_js()
+{
+    global $an;
+    $s="<script type='text/javascript'>";
+    $s.="var stream_vo_related_cookies = ".$an->render_vo_stream_cookie_fbjs();
+    $s.="</script>";
+    echo $s;
+}
 ?>
 
