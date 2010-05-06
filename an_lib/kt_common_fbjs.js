@@ -205,7 +205,7 @@ function kt_getCookie(c_name)
 }
 
 
-function gen_stream_link(link, uuid, st1, st2)
+function gen_stream_link(link, uuid, st1, st2, st3)
 {
   var param_array = {'kt_type' : 'stream',
 		     'kt_ut'   : uuid + "" };
@@ -216,6 +216,10 @@ function gen_stream_link(link, uuid, st1, st2)
   if(st2 != undefined)
   {
     param_array['kt_st2'] = st2;
+  }
+  if(st3 != undefined)
+  {
+    param_array['kt_st3'] = st3;
   }
   var query_str = http_build_query(param_array);
   var mod_link = append_kt_query_str(link, query_str);
