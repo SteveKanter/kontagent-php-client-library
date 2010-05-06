@@ -1,4 +1,4 @@
-function stream_send(url_prefix, uid, uuid, st1, st2)
+function stream_send(url_prefix, uid, uuid, st1, st2, st3)
 {
   var img = document.createElement('img');
 
@@ -14,6 +14,10 @@ function stream_send(url_prefix, uid, uuid, st1, st2)
   if( st2 != undefined )
   {
     param_array['st2'] = st2;
+  }
+  if( st3 != undefined )
+  {
+    param_array['st3'] = st3;
   }
 
   var query_str = http_build_query(param_array);
